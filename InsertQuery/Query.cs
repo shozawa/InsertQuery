@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Linq;
 
 namespace InsertQuery
@@ -8,11 +7,16 @@ namespace InsertQuery
         public static string Construct(object entity)
         {
             var type = entity.GetType();
-            var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            var properties = type.GetProperties();
             var keys = properties.Select(p => p.Name);
-            var values = properties.Select(p => p.GetValue(entity));
+            var values = properties.Select(p => ToProp(p.Name));
 
-            return $"INSERT FOO SET ({string.Join(",", keys)}) VALUES ({string.Join(",", values)})";
+            return $"INSERT {type.Name} SET ({string.Join(", ", keys)}) VALUES ({string.Join(", ", values)})";
+        }
+
+        private static string ToProp(string annotate)
+        {
+            return $"@{annotate}";
         }
     }
 }
