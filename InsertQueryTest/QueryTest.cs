@@ -9,15 +9,15 @@ namespace InsertQueryTest
         [Fact]
         public void Simple()
         {
-            var expect = "INSERT Foo SET (a, b, c) VALUES (@a, @b, @c)";
+            var expect = "INSERT Foo SET (A, B) VALUES (@A, @B)";
             var actual = Query.Construct(new Foo());
             Assert.Equal(expect, actual);
         }
         public class Foo
         {
-            public int a { get; } = 1;
-            public string b { get; } = "B";
-            public string c { get; } = "C";
+            public int A { get; } = 1;
+            public string B { get; } = "B";
+            private string C { get; } = "C";
         }
     }
 }
